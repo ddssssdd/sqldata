@@ -1,0 +1,7 @@
+db
+node_modules
+bower_components
+uploads
+.DS_Store
+.out
+.log
