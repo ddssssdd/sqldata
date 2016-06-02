@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 		userName:"sa",
 		password:"s3@dm!n",
 		server:"10.4.30.40",				
-		options:{encrypt:false,database:"CnDB",}
+		options:{encrypt:false,database:"st_rvc7",}
 	}
 	var cnn = new Connection(config);
 	cnn.on("connect",function(err){
@@ -17,13 +17,15 @@ router.get('/', function(req, res, next) {
 			return;
 		}
 		var Request = require("tedious").Request;
-		var request = new Request("select getDate() as date,'hello, world' as text,test from dbo.testtb",function(err,rowCount){
+		var request = new Request("select * from dbo.service",function(err,rowCount){
 
 		});
-		request.on('row',function(columns){
+		request.on('row',function(columns){			
+
 			columns.forEach(function(column){
 				console.log(column.value);
 			});
+			//res.json(columns);
 		});
 		cnn.execSql(request);
 	})

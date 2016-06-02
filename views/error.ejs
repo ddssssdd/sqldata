@@ -1,6 +1,23 @@
-extends layout
 
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+
+
+
+<% include shared/header %>
+
+
+ 
+
+<div class="container">
+
+  <!-- Main component for a primary marketing message or call to action -->
+  <div class="jumbotron">
+    <h3>Error:</h3>
+    <p><%= message %></p>
+    
+  </div>
+
+</div> <!-- /container -->
+
+
+    
+<% include shared/footer %>

@@ -1,5 +1,66 @@
-extends layout
+<% include shared/header %>
 
-block content
-  h1= title
-  p Welcome to #{title}
+<% include shared/menu %>
+ 
+
+<div class="container" ng-controller="ExecuteCtrl">
+
+ <form class="form-inline">
+  <div class="form-group">    
+  	<label  class="col-sm-4">Sql server:</label>
+    <input type="text" class="form-control" id="exampleInputName2" placeholder="123.1.1.1" ng-model="sqlserver.ip">
+  </div>
+  <div class="form-group">    
+    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="username"  ng-model="sqlserver.username">
+  </div>
+  <div class="form-group">
+    
+    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="password"  ng-model="sqlserver.password">
+  </div>
+  <div class="form-group">
+    
+    <input type="text" class="form-control" id="exampleInputEmail2" placeholder="db"  ng-model="sqlserver.database">
+  </div>
+  <button type="submit" class="btn btn-default">Test Connection</button>
+</form>
+<br/>
+
+
+<textarea class="form-control" rows="3" ng-model="sqlserver.sql"></textarea>
+<br/>
+
+<button type="button" class="btn btn-primary" ng-click="executeSQL($event);">Execute</button>
+
+<table class="table table-bordered table-condensed table-responsive table-stripe">
+<thead>
+	<tr>
+		<th ng-repeat="col in results.cols">{{col.colName}}</th>
+	</tr>
+</thead>
+<tbody>
+	<tr ng-repeat="row in results.data">
+		<td ng-repeat="item in row">{{item}}</td>
+	</tr>
+</tbody>
+</table>
+</div> <!-- /container -->
+
+
+    
+<% include shared/footer %>
+
+<script>
+angular.module("sqldata_app").controller("ExecuteCtrl",function($scope,httpService){
+	$scope.sqlserver = {ip:"10.4.30.40",username:"sa",password:"s3@dm!n",database:"st_rvc7",sql:""};
+	$scope.executeSQL = function(event){
+		$scope.results = {};
+		var url = "/sqlserver/execute";
+		httpService(url,$scope.sqlserver,function(json){
+			if (json.status){
+				$scope.results = json.result;	
+			}
+			
+		});
+	}
+});
+</script>
